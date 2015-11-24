@@ -6,7 +6,7 @@
 <div class="list-unstyled list-group">
     <?php
     
-    $ths = "<div class='list-group-item'><span><b>ID</b></span>"
+    $ths = "<div class='list-group-item rows'><span><b>ID</b></span>"
                 . "<span> <b>Nome</b></span>"
                 . "<span> <b>Tipo</b></span></div>";
     foreach ($clients as $value) :
