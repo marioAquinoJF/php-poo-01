@@ -1,7 +1,7 @@
 <?php
-require_once 'controllers/ClientController.php';
-require_once 'controllers/HomeController.php';
-//$clients = Client::All();
+
+require __DIR__.'/autoload.php';
+
 ?>
 <!DOCTYPE html>
 <!--
@@ -28,23 +28,23 @@ and open the template in the editor.
 
             <?php
             if (!isset($_GET['page'])):
-                HomeController::index();
+                app\controllers\HomeController::index();
             else :
                 switch ($_GET['page']) {
                     case "home":
-                        HomeController::index();
+                        app\controllers\HomeController::index();
                         break;
 
                     case "clients":
-                        ClientController::namesList($_GET['order']);
+                        \app\controllers\ClientController::namesList($_GET['order']);
                         break;
 
                     case "showClient":
-                        ClientController::show($_GET['id']);
+                        app\controllers\ClientController::show($_GET['id']);
                         break;
                     
                     default:
-                        HomeController::index();
+                        app\controllers\HomeController::index();
                         break;
                 }
             endif;

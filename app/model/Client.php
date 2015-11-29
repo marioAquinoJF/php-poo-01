@@ -1,6 +1,6 @@
 <?php
 
-include_once 'Cobranca.php';
+namespace app\model;
 
 abstract class Client {
 
@@ -27,7 +27,7 @@ abstract class Client {
     }
 
     public static function All($order = 'asc') {
-        include './data/clients.php';
+        include '/../data/clients.php';
         if ($order === 'desc'):
             usort(
                     $clients, function( $a, $b ) {
@@ -39,7 +39,7 @@ abstract class Client {
     }
 
     public static function find($cli_id) {
-        include './data/clients.php';
+        include '/../data/clients.php';
         foreach ($clients as $client) {
             if ($client->id == $cli_id):
                 return $client;

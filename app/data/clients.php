@@ -1,4 +1,8 @@
 <?php
+namespace data;
+
+use app\model\PessoaFisica;
+use app\model\PessoaJuridica;
 
 if (!function_exists("genCPF")):
 

@@ -1,5 +1,6 @@
 <?php
-
+namespace app\model;
+use app\model\Cobranca;
 /**
  * Description of PessoaFisica
  * @abstract This  object is responsible for handling the PessoaFisica's data.

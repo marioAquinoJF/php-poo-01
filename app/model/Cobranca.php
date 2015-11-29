@@ -1,5 +1,6 @@
 <?php
 
+namespace app\model;
 /**
  *
  * @author Mário
