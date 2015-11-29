@@ -1,6 +1,6 @@
 <?php
 
-require __DIR__.'/autoload.php';
+require '/app/autoload.php';
 
 ?>
 <!DOCTYPE html>
