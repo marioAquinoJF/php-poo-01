@@ -1,40 +1,65 @@
 <?php
+
 namespace app\model;
-use app\model\Cobranca;
-/**
- * Description of PessoaFisica
- * @abstract This  object is responsible for handling the PessoaFisica's data.
- * @author Mario Henrique Meireles de Aquino
- */
-class PessoaFisica extends Client implements Cobranca {
 
-    private $cpf, $idade, $rg;
+use app\dao\PessoaFisicaDao;
 
-    public function getEnderecoDeCobranca() {
-        return $this->props['endereco'];
+class PessoaFisica extends Model {
+
+    protected $attrs = [ 'client_id' => '', 'cpf' => '', 'rg' => '', 'age' => ''];
+    private $client,
+            $address,
+            $dao;
+
+    public function __construct(Client $client, $attrs) {
+        $this->setData($attrs);
+        $this->dao = new PessoaFisicaDao();
+        $this->client = $client;
     }
 
-    public function getGrauDeImportancia() {        
-        if ($this->props['idade'] > 40):
+    public function getGrauDeImportancia() {
+        
+        if ($this->attrs['age'] > 40):
             return 'Cliente Platina';
-        elseif ($this->props['idade'] > 30):
+        elseif ($this->attrs['age'] > 30):
             return 'Cliente Ouro';
         endif;
 
         return 'Cliente Prata';
     }
 
-    public function getEndereco() {
-
-        return $this->props['endereco'];
+    public function create() {
+        $this->client->type = 0;
+        $this->client->save();
+        if ($this->client->id):
+            $this->attrs['client_id'] = $this->client->id;
+            return PessoaFisicaDao::record($this->getData());
+        endif;
     }
 
-    private function setProps($data) {
-        foreach ($data as $key => $value) :
-            if (key_exists($key, $this->props)) :
-                $this->props[$key] = $value;
-            endif;
-        endforeach;
+    public static function find($id) {
+        $d = PessoaFisicaDao::get($id)[0];
+        $c = new Client($d);
+        $pf = new PessoaFisica($c, $d);
+        $a = new Address(['address'=>$d['address']]);
+        $pf->setAddress($a);
+        return $pf;
     }
+
+    public function getBilling() {
+        return $this->address;
+    }
+
+    public function getAddress() {
+        return $this->address;
+    }
+    public function getClient() {
+        return $this->client;
+    }
+    public function setAddress(Address $address) {
+        $this->address = $address;
+    }
+
+
 
 }

@@ -1,54 +1,31 @@
 <?php
 
 namespace app\model;
+use app\dao\ClientDAO;
 
-abstract class Client {
+class Client extends Model {
 
-    protected $props ;
+    protected $attrs = ['id'=>'', 'name'=>'', 'type'=>''];
+    private $dao;
+    
+    public static $types = ['Pessoa Fisica', 'Pessoa Jurídica'];
 
-    public function __construct($dataClient) {
-        $this->props = $dataClient;
+    public function __construct($data) {
+        $this->setData($data);
+        $this->dao = new ClientDAO();
     }
 
-    public function __set($name, $value) {
-        if (key_exists($name, $this->props)) {
-            $this->props[$name] = $value;
-        }
+    public function save() {
+        $this->attrs['id'] = ClientDAO::record($this->attrs)['id'];
+        return $this->attrs['id']; 
     }
 
-    public function __get($name) {
-        if (key_exists($name, $this->props) && $name !== 'endereco') {
-            return $this->props[$name];
-        }
+    public static function all($order) {
+       return ClientDAO::all($order);
     }
 
-    public function getData() {
-        return $this->props;
+    public function find($id) {
+        
     }
 
-    public static function All($order = 'asc') {
-        include '/../data/clients.php';
-        if ($order === 'desc'):
-            usort(
-                    $clients, function( $a, $b ) {
-                return ($a->id < $b->id );
-            }
-            );
-        endif;
-        return $clients;
-    }
-
-    public static function find($cli_id) {
-        include '/../data/clients.php';
-        foreach ($clients as $client) {
-            if ($client->id == $cli_id):
-                return $client;
-            endif;
-        }
-        return;
-    }
-
-    abstract public function getGrauDeImportancia();
-
-    abstract public function getEndereco();
 }

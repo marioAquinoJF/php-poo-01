@@ -2,6 +2,7 @@
 
 function autoload($className)
 {
+
     $className = ltrim($className, '\\');
     $fileName  = '';
     $namespace = '';
@@ -10,7 +11,7 @@ function autoload($className)
         $className = substr($className, $lastNsPos + 1);
         $fileName  = str_replace('\\', DIRECTORY_SEPARATOR, $namespace) . DIRECTORY_SEPARATOR;
     }
-    $fileName .= str_replace('_', DIRECTORY_SEPARATOR, $className) . '.php';	
-    require_once ".\\".$fileName;
+    $fileName .= str_replace('\\', DIRECTORY_SEPARATOR, $className) . '.php';	
+    require_once $fileName;
 }
 spl_autoload_register("autoload");
