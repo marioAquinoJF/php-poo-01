@@ -26,6 +26,7 @@ class Install {
                 echo $stmt . '<br/>';
             endif;
         }
+        Connection::close();
     }
 
 }
